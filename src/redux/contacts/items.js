@@ -3,6 +3,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 
+import { fetchContacts } from "js/mockAPI";
+
 /*export const addContact = createAction("contacts/addContact", function prepare(contact) {
   return { payload: { id: nanoid(), ...contact }};
 } ); //payload: new contact with new ID
@@ -11,10 +13,13 @@ export const deleteContact = createAction("contacts/deleteContact"); //payload: 
 
 export const contactItemsSlice = createSlice({
   name: "items",
-  initialState: [],
+  initialState: null,
   reducers: {
+    getContactsSuccess: (_, action) => {
+      return action.payload; //full rewrite of contacts
+    },
     addContact: {
-      reducer: (state, action) => {
+      reducer: (state = [], action) => {
         const { name: newName } = action.payload; //destruct new contact from payload
         const normalizedNewName = newName.toLowerCase(); //check if the person already exists in contacts
 
@@ -46,13 +51,23 @@ export const selectItems = (state) => {
   return state.contacts.items;
 }
 
-export const fetchContacts = createAsyncThunk(
+export const fetchAsyncContacts = createAsyncThunk(
   
 );
 
 export const getContacts = () => {
   return (dispatch) => {
+    dispatch({ type: "items/getContactsPending" });
 
+    fetchContacts()
+      .then((response) => {
+        const contacts = (response.data === "Not found") ? [] : response.data;
+        return dispatch({ type: "items/getContactsSuccess", payload: contacts})
+      })
+      .catch((error) => {
+        dispatch({ type: "items/getContactsError", payload: error})
+        //toast.error(error.message);
+      })
   }
 }
 

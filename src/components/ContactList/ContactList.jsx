@@ -7,16 +7,22 @@ import styles from "./ContactList.module.css"
 import { deleteContact, selectItems } from "../../redux/contacts/items";
 import { selectFilter } from "redux/contacts/filter";
 
+import { getContacts } from "redux/contacts/items";
+
 const ContactList = () => {
 
     const lowCaseFilter = useSelector(selectFilter).toLowerCase();
+
+    const dispatch = useDispatch();
     
     const contacts = useSelector(selectItems);
 
-    const dispatch = useDispatch();
+    if (!contacts) {
+        dispatch(getContacts());
+    }
 
     return (
-        contacts.length === 0 ?
+        (!contacts || (contacts.length === 0)) ?
         <p>No contacts so far...</p> :           
         <ul className={styles.contactList}>
             { contacts.map((contact) => {
@@ -25,7 +31,7 @@ const ContactList = () => {
                     <li key={contact.id} className={styles.contact}>
                         <ContactItem
                             name={contact.name}
-                            number={contact.number}
+                            number={contact.phone}
                         />
                         <button
                             type="button"

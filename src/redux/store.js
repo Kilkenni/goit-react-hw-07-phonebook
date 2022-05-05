@@ -26,7 +26,7 @@ export const store = configureStore({
     }),
   preloadedState: {
     contacts: {
-      items: [],
+      items: null,
       filter: "",
     }
   },
