@@ -28,6 +28,8 @@ export const store = configureStore({
     contacts: {
       items: null,
       filter: "",
+      status: "idle", // idle | loading | success | error
+      error: null,
     }
   },
 });

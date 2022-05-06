@@ -7,7 +7,8 @@ import styles from "./ContactList.module.css"
 import { deleteContact, selectItems } from "../../redux/contacts/items";
 import { selectFilter } from "redux/contacts/filter";
 
-import { getContacts } from "redux/contacts/items";
+import { getContactsOperation } from "redux/contacts/asyncOperations/getContactsOperation";
+import { deleteContactOperation } from "redux/contacts/asyncOperations/deleteContactOperation";
 
 const ContactList = () => {
 
@@ -18,7 +19,8 @@ const ContactList = () => {
     const contacts = useSelector(selectItems);
 
     if (!contacts) {
-        dispatch(getContacts());
+        //dispatch(getContacts());
+        dispatch(getContactsOperation());
     }
 
     return (
@@ -35,7 +37,7 @@ const ContactList = () => {
                         />
                         <button
                             type="button"
-                            onClick={() => dispatch(deleteContact(contact.id))}
+                            onClick={() => dispatch(deleteContactOperation(contact.id))}
                             className={styles.btnDeleteContact}
                         >Delete contact
                         </button>
