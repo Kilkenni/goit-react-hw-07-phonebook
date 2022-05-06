@@ -34,3 +34,7 @@ export const contactStatus = createReducer("idle", {
     return "error";
   },
 });
+
+export const selectStatus = (state) => {
+  return state.contacts.status;
+}

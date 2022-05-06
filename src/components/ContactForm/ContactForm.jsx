@@ -1,10 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useState } from "react";
 //import propTypes from "prop-types";
 import style from "./ContactForm.module.css"
 
 import { addContactOperation } from "redux/contacts/asyncOperations";
+import { selectStatus } from "redux/contacts/status";
 
 const INIT_STATE = {
     name: "",
@@ -30,6 +31,22 @@ export default function ContactForm (/*{onSubmit}*/) {
         dispatch(addContactOperation(contact));
         setContact({ ...INIT_STATE });
     };
+
+    const reduxStatus = useSelector(selectStatus);
+
+    function isAdding() {
+        if (reduxStatus === "adding") {
+            return true;
+        }
+        return false;
+    }
+
+    function submitButtonTitle() {
+        if (reduxStatus === "adding") {
+            return "Adding...";
+        }
+        return "Add contact";
+    }
 
     return (
         <form action="submit" className={style.formAddContact} onSubmit={onFormSubmit}>
@@ -59,7 +76,7 @@ export default function ContactForm (/*{onSubmit}*/) {
                 />
             </label>
             
-            <button type="submit" className={style.formBtnSubmit}>Add contact</button>
+            <button type="submit" className={style.formBtnSubmit} disabled={isAdding()}>{ submitButtonTitle()}</button>
         </form>
     );
 }

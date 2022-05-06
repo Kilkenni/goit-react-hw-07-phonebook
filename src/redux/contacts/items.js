@@ -13,6 +13,14 @@ export const contactItemsSlice = createSlice({
     [getContactsOperation.fulfilled]: (items, action) => {
       return action.payload; //full rewrite of contacts/items - IMMER does NOT process this
     },
+    //first init from the server if the server has no contacts saved
+    [getContactsOperation.rejected]: (items, action) => {
+      if (action.error.code === "ERR_BAD_REQUEST") {
+        return []; //init with empty array
+      }
+      return items;
+    },
+
     [addContactOperation.fulfilled]: (items, action) => {
       if (!items) { //first contact ever?
         return [action.payload];
