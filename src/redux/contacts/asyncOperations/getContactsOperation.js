@@ -12,5 +12,18 @@ export const getContactsOperation = createAsyncThunk(
     const contacts = (response.data === "Not found") ? [] : response.data;
 
     return contacts;
+  },
+  {
+    condition: ( _, { getState, extra }) => {
+      //pre-check if a fetch is already ongoing
+      const { contacts } = getState();
+      console.log(contacts)
+      const { status } = contacts;
+      if (status !== "idle" && status !== "success" && status !== "error") {
+        //toast.warn(`Another operation - ${status} - is in progress. Try again later.`);
+        return false;
+      };
+      return true;
+    },
   }
 )
