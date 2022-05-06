@@ -2,9 +2,7 @@ import { /*createAction, createReducer,*/  createSlice } from "@reduxjs/toolkit"
 //import { nanoid } from "nanoid";
 //import { toast } from "react-toastify";
 
-import { getContactsOperation } from "./asyncOperations/getContactsOperation";
-import { addContactOperation } from "./asyncOperations/addContactOperation";
-import { deleteContactOperation } from "./asyncOperations/deleteContactOperation";
+import { getContactsOperation, addContactOperation, deleteContactOperation } from "./asyncOperations";
 
 export const contactItemsSlice = createSlice({
   name: "items",
@@ -16,6 +14,9 @@ export const contactItemsSlice = createSlice({
       return action.payload; //full rewrite of contacts/items - IMMER does NOT process this
     },
     [addContactOperation.fulfilled]: (items, action) => {
+      if (!items) { //first contact ever?
+        return [action.payload];
+      }
       return [...items, action.payload]; //without IMMER - for practice
     },
     [deleteContactOperation.fulfilled]: (items, action) => {

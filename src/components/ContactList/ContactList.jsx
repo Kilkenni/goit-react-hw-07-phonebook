@@ -4,11 +4,10 @@ import ContactItem from "../ContactItem";
 //import propTypes from "prop-types";
 import styles from "./ContactList.module.css"
 
-import { deleteContact, selectItems } from "../../redux/contacts/items";
+import { selectItems } from "../../redux/contacts/items";
 import { selectFilter } from "redux/contacts/filter";
 
-import { getContactsOperation } from "redux/contacts/asyncOperations/getContactsOperation";
-import { deleteContactOperation } from "redux/contacts/asyncOperations/deleteContactOperation";
+import { getContactsOperation, deleteContactOperation } from "redux/contacts/asyncOperations";
 
 const ContactList = () => {
 

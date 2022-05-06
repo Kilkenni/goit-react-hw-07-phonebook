@@ -24,7 +24,7 @@ export const addContactOperation = createAsyncThunk(
         return false;
       };*/
 
-      const contactList = contacts ? contacts.items : [];
+      const contactList = (contacts && contacts.items) ? contacts.items : [];
       
       const { name: newName } = contact; //destruct new contact from payload
       const normalizedNewName = newName.toLowerCase(); //check if the person already exists in contacts
