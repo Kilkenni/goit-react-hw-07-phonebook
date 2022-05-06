@@ -3,6 +3,7 @@
 GoIT React HW#07 Phonebook
 
 - Async Redux practice
+- Powered by mockapi.io
 
 **Read in other languages: [Русский](README.md), [Polska](README.pl.md).**
 
